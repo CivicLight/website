@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mining - CivicNet</title>
+
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+<div class="logo">
+<h2>CivicNet</h2>
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="downloads.html">Downloads</a>
+<a href="mining.html">Mining</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="faq.html">FAQ</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<section class="hero">
+
+<div class="container">
+
+<h1>Mine CivicNet</h1>
+
+<p class="subtitle">
+Start mining CIVIC using any modern CPU.
+Choose between pool mining or solo mining.
+</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Why CPU Mining?</h2>
+
+<p style="text-align:center;max-width:900px;margin:auto;color:#cbd5e1;">
+
+CivicNet uses the custom <b>civiclight</b> Proof-of-Work algorithm,
+designed to keep mining simple and accessible for ordinary CPUs.
+
+Today, anyone can participate without purchasing expensive ASIC hardware.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Official Pool</h2>
+
+<div class="card">
+
+<h3>Pool Address</h3>
+
+<p>
+
+<strong>URL</strong><br>
+
+stratum+tcp://103.180.165.99:3032
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Username</strong><br>
+
+Your CIVIC wallet address
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Password</strong><br>
+
+x
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Windows Miner</h2>
+
+<div class="card">
+
+<pre>
+
+cpuminer.exe ^
+-a civiclight ^
+-o stratum+tcp://103.180.165.99:3032 ^
+-u civc1qYOURADDRESS ^
+-p x
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Linux Miner</h2>
+
+<div class="card">
+
+<pre>
+
+./cpuminer \
+-a civiclight \
+-o stratum+tcp://103.180.165.99:3032 \
+-u civc1qYOURADDRESS \
+-p x
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Solo Mining</h2>
+
+<div class="card">
+
+<pre>
+
+cpuminer.exe ^
+-a civiclight ^
+-o http://YOUR_NODE_IP:9332 ^
+-u RPC_USERNAME ^
+-p RPC_PASSWORD ^
+--coinbase-addr=civc1qYOURADDRESS
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="container">
+
+<h2>Mining Information</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Algorithm</h3>
+
+<p>civiclight</p>
+
+</div>
+
+<div class="card">
+
+<h3>Block Time</h3>
+
+<p>1 Minute</p>
+
+</div>
+
+<div class="card">
+
+<h3>Reward</h3>
+
+<p>77 CIVIC</p>
+
+</div>
+
+<div class="card">
+
+<h3>Halving</h3>
+
+<p>Every 2,100,000 blocks</p>
+
+</div>
+
+<div class="card">
+
+<h3>Maturity</h3>
+
+<p>50 Confirmations</p>
+
+</div>
+
+<div class="card">
+
+<h3>Pool Fee</h3>
+
+<p>1%</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section class="cta">
+
+<div class="container">
+
+<h2>Ready to Start?</h2>
+
+<p>
+
+Download the official wallet and miner,
+connect to the CivicNet pool,
+and start earning CIVIC today.
+
+</p>
+
+<a class="btn" href="downloads.html">
+
+Download Now
+
+</a>
+
+</div>
+
+</section>
+
+
+
+<footer>
+
+<div class="container">
+
+<hr>
+
+<p class="copyright">
+
+© <span id="year"></span> CivicNet Project
+
+</p>
+
+</div>
+
+</footer>
+
+</body>
+
+</html>
