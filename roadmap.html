@@ -1,252 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap | CivicNet</title>
+<meta name="description" content="CivicNet development roadmap — what's live, what's in progress, what's next.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b; --bg-deep: #091220; --surface: #16263d; --surface-hi: #1c3050;
+    --line: #2a3f5c; --amber: #e8a33d; --amber-dim: #b57e2b; --teal: #5fbfa3;
+    --text: #f2f0e8; --text-dim: #a9b4c4; --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; text-decoration: none; }
 
-<title>Roadmap - CivicNet</title>
+  header { position: sticky; top: 0; z-index: 50; background: rgba(14, 26, 43, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .mark { width: 10px; height: 10px; background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.6); }
+  nav { display: flex; gap: 32px; }
+  nav a { font-size: 14px; font-weight: 500; color: var(--text-dim); transition: color 0.15s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
 
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
+  .page-head { padding: 64px 0 48px; border-bottom: 1px solid var(--line); }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .page-head p { color: var(--text-dim); font-size: 16px; max-width: 620px; }
 
+  .progress-strip { padding: 32px 0; border-bottom: 1px solid var(--line); }
+  .progress-track { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--amber)); width: 68%; }
+  .progress-label { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+  .progress-label .amber { color: var(--amber); }
+
+  section { padding: 60px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-head { margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
+  .section-head h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .phase-dot.done { background: var(--teal); box-shadow: 0 0 10px 2px rgba(95,191,163,0.5); }
+  .phase-dot.active { background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.5); }
+  .phase-dot.future { background: var(--text-faint); }
+
+  .rm-list { display: flex; flex-direction: column; }
+  .rm-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px; border: 1px solid var(--line); border-radius: 4px;
+    margin-bottom: 10px; background: var(--bg-deep);
+  }
+  .rm-item.done { border-color: rgba(95,191,163,0.25); }
+  .rm-item.active { border-color: rgba(232,163,61,0.3); }
+  .rm-item-left { display: flex; align-items: center; gap: 14px; }
+  .rm-check { font-family: var(--font-mono); font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
+  .rm-check.done { color: var(--teal); }
+  .rm-check.active { color: var(--amber); }
+  .rm-check.future { color: var(--text-faint); }
+  .rm-item h4 { font-family: var(--font-display); font-size: 15.5px; font-weight: 600; }
+  .rm-item p { font-size: 13.5px; color: var(--text-dim); margin-top: 2px; }
+  .rm-status {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 3px; flex-shrink: 0; white-space: nowrap;
+  }
+  .rm-status.done { color: var(--teal); background: rgba(95,191,163,0.1); }
+  .rm-status.active { color: var(--amber); background: rgba(232,163,61,0.1); }
+  .rm-status.future { color: var(--text-faint); background: var(--surface); }
+
+  .fork-note {
+    display: flex; gap: 12px; padding: 18px 20px; border-radius: 4px;
+    background: rgba(232,163,61,0.06); border: 1px solid rgba(232,163,61,0.25);
+    font-size: 13.5px; color: var(--text-dim); margin-top: 24px;
+  }
+  .fork-note .icon { color: var(--amber); flex-shrink: 0; }
+  .fork-note strong { color: var(--text); }
+
+  footer { padding: 56px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .rm-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
 </head>
-
 <body>
 
 <header>
-
-<div class="container">
-
-<div class="logo">
-<h2>CivicNet</h2>
-</div>
-
-<nav>
-
-<a href="index.html">Home</a>
-<a href="downloads.html">Downloads</a>
-<a href="mining.html">Mining</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="faq.html">FAQ</a>
-
-</nav>
-
-</div>
-
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="mining.html">Mining</a>
+      <a href="roadmap.html" class="active">Roadmap</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
 </header>
 
-<section class="hero">
-
-<div class="container">
-
-<h1>CivicNet Roadmap</h1>
-
-<p class="subtitle">
-
-Building an open, fair and community-driven blockchain.
-
-</p>
-
+<div class="page-head">
+  <div class="wrap">
+    <div class="section-eyebrow">Where We're Headed</div>
+    <h1>Roadmap.</h1>
+    <p>An honest look at what's live, what's actively being worked on, and what's next. No fixed dates on future items until they're ready to commit to.</p>
+  </div>
 </div>
 
-</section>
-
-
+<div class="progress-strip">
+  <div class="wrap">
+    <div class="progress-track"><div class="progress-fill"></div></div>
+    <div class="progress-label">
+      <span>Phase 1: Foundation</span>
+      <span class="amber">You are here</span>
+      <span>Phase 3: Growth</span>
+    </div>
+  </div>
+</div>
 
 <section>
-
-<div class="container">
-
-<h2>Development Progress</h2>
-
-<div class="grid">
-
-<div class="card done">
-
-<h3>✔ Mainnet Launch</h3>
-
-<p>
-
-Genesis Block<br>
-Mainnet Live<br>
-CPU Mining<br>
-Custom civiclight Algorithm
-
-</p>
-
-</div>
-
-
-
-<div class="card done">
-
-<h3>✔ Wallets</h3>
-
-<p>
-
-Windows Wallet<br>
-Linux Daemon<br>
-CLI Wallet<br>
-RPC Support
-
-</p>
-
-</div>
-
-
-
-<div class="card done">
-
-<h3>✔ Mining Infrastructure</h3>
-
-<p>
-
-Official Mining Pool<br>
-Stratum Server<br>
-Automatic Payments<br>
-Public Explorer
-
-</p>
-
-</div>
-
-
-
-<div class="card progress">
-
-<h3>🚧 Network Improvements</h3>
-
-<p>
-
-Additional Seed Nodes<br>
-Better Peer Discovery<br>
-Network Stability<br>
-Performance Optimization
-
-</p>
-
-</div>
-
-
-
-<div class="card progress">
-
-<h3>🚧 Ecosystem</h3>
-
-<p>
-
-Official Website<br>
-Documentation<br>
-Community Growth<br>
-Exchange Applications
-
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>📌 Planned</h3>
-
-<p>
-
-ASIC-resistant civiclight v2<br>
-Improved Mining Algorithm<br>
-Additional Security Features
-
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>📌 Future</h3>
-
-<p>
-
-Hybrid PoW + PoS<br>
-Staking Rewards<br>
-Governance Voting
-
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>📌 Long-Term Vision</h3>
-
-<p>
-
-Mobile Wallet<br>
-Hardware Wallet Support<br>
-Web Wallet<br>
-Developer API<br>
-Community Grants
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+  <div class="wrap">
+    <div class="section-head">
+      <span class="phase-dot done"></span>
+      <h2>Live &mdash; Core Network</h2>
+    </div>
+    <div class="rm-list">
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>Mainnet</h4><p>civiclight proof-of-work network, live and mining.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>Wallet</h4><p>Desktop GUI wallet (Windows) and web wallet.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>Block Explorer</h4><p>Full transaction and block history, publicly browsable.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>Mining Pool</h4><p>Official pool with automatic payouts.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>CPU Miner</h4><p>Prebuilt Windows miner, plus buildable source.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>DNS Seed</h4><p>Automatic peer discovery for new nodes &mdash; no manual config needed.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
+    </div>
+  </div>
 </section>
 
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="phase-dot active"></span>
+      <h2>In Progress</h2>
+    </div>
+    <div class="rm-list">
+      <div class="rm-item active">
+        <div class="rm-item-left">
+          <span class="rm-check active">&#9203;</span>
+          <div><h4>civiclight v2 &mdash; ASIC Resistance</h4><p>Moving from the current hash pipeline to a memory-hard construction, closing the gap that lets specialized hardware compete.</p></div>
+        </div>
+        <span class="rm-status active">Research</span>
+      </div>
+      <div class="rm-item active">
+        <div class="rm-item-left">
+          <span class="rm-check active">&#9203;</span>
+          <div><h4>Hybrid PoW + PoS</h4><p>Layering proof-of-stake on top of mining, for long-term network security beyond hashrate alone.</p></div>
+        </div>
+        <span class="rm-status active">Design</span>
+      </div>
+    </div>
 
-
-<section class="cta">
-
-<div class="container">
-
-<h2>Our Mission</h2>
-
-<p>
-
-CivicNet aims to remain transparent, open-source,
-and accessible to everyone.
-Every major protocol change will be discussed publicly
-before implementation.
-
-</p>
-
-<a class="btn" href="https://github.com/CivicLight" target="_blank">
-
-View GitHub
-
-</a>
-
-</div>
-
+    <div class="fork-note">
+      <span class="icon">&#9432;</span>
+      <span><strong>Note on civiclight v2:</strong> this requires a hard fork. It won't ship until it's tested thoroughly on a public testnet, with the network given plenty of advance notice before any fork height is set.</span>
+    </div>
+  </div>
 </section>
 
-
+<section style="border-bottom: none;">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="phase-dot future"></span>
+      <h2>Planned</h2>
+    </div>
+    <div class="rm-list">
+      <div class="rm-item">
+        <div class="rm-item-left">
+          <span class="rm-check future">&#9675;</span>
+          <div><h4>Additional Pool Listings</h4><p>Getting CivicNet listed on more multi-coin mining pools for wider reach.</p></div>
+        </div>
+        <span class="rm-status future">Planned</span>
+      </div>
+      <div class="rm-item">
+        <div class="rm-item-left">
+          <span class="rm-check future">&#9675;</span>
+          <div><h4>Exchange Listings</h4><p>Starting with smaller/DEX listings as the community and liquidity grow.</p></div>
+        </div>
+        <span class="rm-status future">Planned</span>
+      </div>
+      <div class="rm-item">
+        <div class="rm-item-left">
+          <span class="rm-check future">&#9675;</span>
+          <div><h4>Linux &amp; macOS GUI Wallet</h4><p>Extending the desktop wallet beyond Windows.</p></div>
+        </div>
+        <span class="rm-status future">Planned</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
-
-<div class="container">
-
-<hr>
-
-<p class="copyright">
-
-© <span id="year"></span> CivicNet Project
-
-</p>
-
-</div>
-
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
 </footer>
 
 </body>
-
 </html>
