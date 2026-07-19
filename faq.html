@@ -1,280 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ | CivicNet</title>
+<meta name="description" content="Frequently asked questions about CivicNet (CIVIC) — mining, wallets, and the network.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b; --bg-deep: #091220; --surface: #16263d; --surface-hi: #1c3050;
+    --line: #2a3f5c; --amber: #e8a33d; --amber-dim: #b57e2b; --teal: #5fbfa3;
+    --text: #f2f0e8; --text-dim: #a9b4c4; --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; text-decoration: none; }
 
-<title>FAQ - CivicNet</title>
+  header { position: sticky; top: 0; z-index: 50; background: rgba(14, 26, 43, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { max-width: 1120px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .mark { width: 10px; height: 10px; background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.6); }
+  nav { display: flex; gap: 32px; }
+  nav a { font-size: 14px; font-weight: 500; color: var(--text-dim); transition: color 0.15s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
 
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
+  .page-head { padding: 64px 0 48px; border-bottom: 1px solid var(--line); }
+  .page-head .wrap { max-width: 1120px; }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .page-head p { color: var(--text-dim); font-size: 16px; max-width: 600px; }
 
+  .faq-body { padding: 56px 0 80px; }
+
+  .cat-label {
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber); margin: 44px 0 16px;
+  }
+  .cat-label:first-child { margin-top: 0; }
+
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    padding: 20px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text);
+  }
+  .faq-q:hover { color: var(--amber); }
+  .faq-q .plus {
+    font-family: var(--font-mono); font-size: 18px; color: var(--amber-dim); flex-shrink: 0;
+    transition: transform 0.2s; width: 20px; text-align: center;
+  }
+  .faq-item.open .faq-q .plus { transform: rotate(45deg); color: var(--amber); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.25s ease, padding 0.25s ease;
+    font-size: 14.5px; color: var(--text-dim);
+  }
+  .faq-item.open .faq-a { max-height: 400px; padding-bottom: 22px; }
+  .faq-a code {
+    font-family: var(--font-mono); font-size: 13px; background: var(--bg-deep);
+    padding: 2px 7px; border-radius: 3px; border: 1px solid var(--line); color: var(--amber);
+  }
+  .faq-a a { color: var(--amber); text-decoration: underline; }
+
+  footer { padding: 56px 0 40px; }
+  footer .wrap { max-width: 1120px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
 </head>
-
 <body>
 
 <header>
-
-<div class="container">
-
-<div class="logo">
-<h2>CivicNet</h2>
-</div>
-
-<nav>
-
-<a href="index.html">Home</a>
-<a href="downloads.html">Downloads</a>
-<a href="mining.html">Mining</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="faq.html">FAQ</a>
-
-</nav>
-
-</div>
-
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="mining.html">Mining</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="faq.html" class="active">FAQ</a>
+    </nav>
+  </div>
 </header>
 
-
-
-<section class="hero">
-
-<div class="container">
-
-<h1>Frequently Asked Questions</h1>
-
-<p class="subtitle">
-
-Answers to the most common questions about CivicNet.
-
-</p>
-
+<div class="page-head">
+  <div class="wrap">
+    <div class="section-eyebrow">Questions</div>
+    <h1>Frequently asked questions.</h1>
+    <p>Everything you need to know about CivicNet, mining, and wallets.</p>
+  </div>
 </div>
 
-</section>
+<div class="faq-body">
+  <div class="wrap">
 
+    <div class="cat-label">General</div>
 
+    <div class="faq-item">
+      <button class="faq-q"><span>What is CivicNet?</span><span class="plus">+</span></button>
+      <div class="faq-a">CivicNet (CIVIC) is a decentralized, Bitcoin Core-based cryptocurrency built around civiclight, a CPU-friendly proof-of-work algorithm. The goal is to keep mining accessible to ordinary desktop hardware, rather than requiring specialized ASICs or GPU farms.</div>
+    </div>
 
-<section>
+    <div class="faq-item">
+      <button class="faq-q"><span>Is civiclight truly ASIC-resistant?</span><span class="plus">+</span></button>
+      <div class="faq-a">Not yet, cryptographically. The current civiclight algorithm is CPU-friendly in practice &mdash; no ASIC or GPU miners currently exist for it &mdash; but it doesn't use a memory-hard construction that would make specialized hardware fundamentally inefficient. A civiclight v2 upgrade addressing this is on the <a href="roadmap.html">roadmap</a>.</div>
+    </div>
 
-<div class="container">
+    <div class="faq-item">
+      <button class="faq-q"><span>Where can I see the source code?</span><span class="plus">+</span></button>
+      <div class="faq-a">Everything is open source at <a href="https://github.com/CivicLight" target="_blank">github.com/CivicLight</a>, including the node/wallet, the CPU miner, and this website.</div>
+    </div>
 
-<div class="card">
+    <div class="cat-label">Getting Started</div>
 
-<h3>What is CivicNet?</h3>
+    <div class="faq-item">
+      <button class="faq-q"><span>How do I get a CIVIC wallet?</span><span class="plus">+</span></button>
+      <div class="faq-a">Easiest option: open the <a href="https://webwallet.civiclight.xyz" target="_blank">web wallet</a> and generate an address in seconds, no download needed. Or download the full desktop wallet from the <a href="downloads.html">Downloads</a> page.</div>
+    </div>
 
-<p>
+    <div class="faq-item">
+      <button class="faq-q"><span>How do I start mining?</span><span class="plus">+</span></button>
+      <div class="faq-a">Download the CPU miner from the <a href="downloads.html">Downloads</a> page, then point it at the official pool. Full instructions are on the <a href="mining.html">Mining</a> page &mdash; it takes just one command to get started.</div>
+    </div>
 
-CivicNet is an open-source cryptocurrency built to provide a simple,
-transparent and community-driven blockchain. The network currently uses
-the custom civiclight Proof-of-Work algorithm and is designed to keep
-mining accessible on ordinary CPUs.
+    <div class="faq-item">
+      <button class="faq-q"><span>Do I need special hardware?</span><span class="plus">+</span></button>
+      <div class="faq-a">No. Any modern desktop or laptop CPU works. More cores generally means better hashrate, but there's no minimum specialized hardware requirement.</div>
+    </div>
 
-</p>
+    <div class="cat-label">Network</div>
 
+    <div class="faq-item">
+      <button class="faq-q"><span>What's the total supply?</span><span class="plus">+</span></button>
+      <div class="faq-a">Approximately 315 million CIVIC, with the block reward halving every 2,100,000 blocks. See the full <a href="index.html#specs">technical specifications</a> on the homepage.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>How fast are confirmations?</span><span class="plus">+</span></button>
+      <div class="faq-a">Blocks are found roughly every 1 minute. Coinbase (mined) rewards require 50 confirmations to mature before they can be spent.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>Can I run my own full node?</span><span class="plus">+</span></button>
+      <div class="faq-a">Yes. Download <code>civicnet-node</code> from the <a href="downloads.html">Downloads</a> page. New nodes discover peers automatically via the built-in DNS seed &mdash; no manual configuration required.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span>Is there an exchange I can trade on?</span><span class="plus">+</span></button>
+      <div class="faq-a">Not yet. Exchange listings are on the <a href="roadmap.html">roadmap</a>, starting with smaller/DEX options as the community grows. There's no fixed timeline for this yet.</div>
+    </div>
+
+  </div>
 </div>
-
-<br>
-
-<div class="card">
-
-<h3>What algorithm does CivicNet use?</h3>
-
-<p>
-
-CivicNet uses the custom <strong>civiclight</strong> algorithm.
-It is lightweight and CPU-friendly, allowing users to mine without
-specialized ASIC hardware.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Is CivicLight ASIC resistant?</h3>
-
-<p>
-
-Not yet.
-
-Today's civiclight algorithm is CPU-friendly but not fully ASIC-resistant.
-A future version of the algorithm with stronger ASIC resistance is planned
-as part of the long-term roadmap.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>How can I start mining?</h3>
-
-<p>
-
-Download the official CPU miner,
-create a CivicNet wallet,
-then connect to the official mining pool
-or mine directly using your own node.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Can I solo mine?</h3>
-
-<p>
-
-Yes.
-
-You can connect your miner directly to your own CivicNet node using RPC.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>What is the current block reward?</h3>
-
-<p>
-
-The current reward is <strong>77 CIVIC</strong> per block.
-
-Block rewards halve every 2,100,000 blocks.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>What is the total supply?</h3>
-
-<p>
-
-The maximum supply is approximately
-<strong>315 million CIVIC</strong>.
-
-No additional coins will ever be created beyond the scheduled emission.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Was there a premine?</h3>
-
-<p>
-
-Yes.
-
-A transparent 1% developer premine (3,150,000 CIVIC) was created in
-Block 1 to fund long-term development, infrastructure,
-community initiatives and project maintenance.
-
-The remaining 99% of all coins are distributed through mining.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Is CivicNet open source?</h3>
-
-<p>
-
-Yes.
-
-All source code is publicly available on GitHub,
-allowing anyone to review, audit and contribute to the project.
-
-</p>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h3>Where can I get help?</h3>
-
-<p>
-
-Visit the official GitHub repository or join the community channels
-for support, bug reports and development discussions.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="cta">
-
-<div class="container">
-
-<h2>Still Have Questions?</h2>
-
-<p>
-
-If you can't find the answer here,
-feel free to open an issue on GitHub or contact the CivicNet community.
-
-</p>
-
-<a class="btn" href="https://github.com/CivicLight" target="_blank">
-
-Visit GitHub
-
-</a>
-
-</div>
-
-</section>
-
-
 
 <footer>
-
-<div class="container">
-
-<hr>
-
-<p class="copyright">
-
-© <span id="year"></span> CivicNet Project
-
-</p>
-
-</div>
-
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
 </footer>
 
-</body>
+<script>
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(el) { el.classList.remove('open'); });
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
 
+</body>
 </html>
