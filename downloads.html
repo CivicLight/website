@@ -3,109 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CivicNet Downloads</title>
+<title>Downloads | CivicNet</title>
+<meta name="description" content="Download the CivicNet wallet and CPU miner for Windows and Linux.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b;
+    --bg-deep: #091220;
+    --surface: #16263d;
+    --surface-hi: #1c3050;
+    --line: #2a3f5c;
+    --amber: #e8a33d;
+    --amber-dim: #b57e2b;
+    --teal: #5fbfa3;
+    --text: #f2f0e8;
+    --text-dim: #a9b4c4;
+    --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; text-decoration: none; }
 
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(14, 26, 43, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .mark { width: 10px; height: 10px; background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.6); }
+  nav { display: flex; gap: 32px; }
+  nav a { font-size: 14px; font-weight: 500; color: var(--text-dim); transition: color 0.15s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
+
+  .page-head { padding: 64px 0 48px; border-bottom: 1px solid var(--line); }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .page-head p { color: var(--text-dim); font-size: 16px; max-width: 600px; }
+
+  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-head { margin-bottom: 36px; }
+  .section-head h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; }
+  .section-head p { margin-top: 8px; color: var(--text-dim); font-size: 15px; }
+
+  /* download cards */
+  .dl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .dl-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 26px;
+    background: var(--bg-deep);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+  .dl-card:hover { border-color: var(--amber-dim); }
+  .dl-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .os-icon {
+    width: 36px; height: 36px;
+    border-radius: 3px;
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+  .dl-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+  .dl-card .platform { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); margin-top: 2px; }
+  .dl-card p.desc { font-size: 14px; color: var(--text-dim); margin-bottom: 20px; flex-grow: 1; }
+  .dl-card .meta { display: flex; gap: 14px; margin-bottom: 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); }
+  .dl-card .meta span { display: flex; align-items: center; gap: 5px; }
+  .dl-card .meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+
+  .btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    padding: 12px 20px; border-radius: 3px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s; border: 1px solid transparent; width: 100%;
+  }
+  .btn-primary { background: var(--amber); color: var(--bg-deep); }
+  .btn-primary:hover { background: #f3b656; }
+  .btn-outline { border-color: var(--line); color: var(--text); }
+  .btn-outline:hover { border-color: var(--amber-dim); background: var(--surface); }
+  .btn-ghost { color: var(--text-dim); font-size: 13px; padding: 8px 0; width: auto; }
+  .btn-ghost:hover { color: var(--amber); }
+
+  .source-note {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-faint);
+    margin-top: 12px; display: flex; align-items: center; gap: 6px;
+  }
+  .source-note svg { flex-shrink: 0; opacity: 0.7; }
+  .source-note a { color: var(--text-dim); border-bottom: 1px dotted var(--line); }
+  .source-note a:hover { color: var(--amber); }
+
+  /* web wallet callout */
+  .callout {
+    border: 1px solid rgba(95,191,163,0.3);
+    background: rgba(95,191,163,0.06);
+    border-radius: 4px;
+    padding: 28px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .callout-text .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .callout-text h3 { font-family: var(--font-display); font-size: 19px; margin-bottom: 6px; }
+  .callout-text p { color: var(--text-dim); font-size: 14px; max-width: 460px; }
+  .callout .btn { width: auto; white-space: nowrap; border-color: rgba(95,191,163,0.4); }
+  .callout .btn:hover { background: rgba(95,191,163,0.12); }
+
+  /* verify panel */
+  .specs-panel { background: var(--bg-deep); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .specs-panel-head { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+  .specs-panel-head .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .code-block { padding: 18px 22px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); overflow-x: auto; }
+  .code-block .cmd { color: var(--amber); }
+  .code-block .comment { color: var(--text-faint); }
+
+  footer { padding: 56px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .dl-grid { grid-template-columns: 1fr; }
+    .callout { flex-direction: column; align-items: flex-start; }
+    .callout .btn { width: 100%; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
 </head>
-
 <body>
 
 <header>
-
-<div class="container nav">
-
-<div class="logo">
-CivicNet
-</div>
-
-<nav>
-
-<a href="index.html">Home</a>
-<a href="downloads.html">Downloads</a>
-<a href="docs.html">Documentation</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="https://github.com/CivicLight" target="_blank">GitHub</a>
-
-</nav>
-
-</div>
-
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="downloads.html" class="active">Downloads</a>
+      <a href="mining.html">Mining</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
 </header>
 
-<section class="hero small">
-
-<div class="container">
-
-<h1>Downloads</h1>
-
-<p>Official binaries and source code.</p>
-
+<div class="page-head">
+  <div class="wrap">
+    <div class="section-eyebrow">Get Started</div>
+    <h1>Downloads.</h1>
+    <p>Every download here links directly to its official source repository. No mirrors, no third-party bundlers.</p>
+  </div>
 </div>
 
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Wallet</h2>
+      <p>CivicNet Core &mdash; full node with built-in GUI wallet. Syncs the blockchain and connects to the network automatically.</p>
+    </div>
+    <div class="dl-grid">
+
+      <div class="dl-card">
+        <div class="dl-card-top">
+          <div class="os-icon">WIN</div>
+          <div>
+            <h3>Windows</h3>
+            <div class="platform">civicnet-qt.exe &middot; x86_64</div>
+          </div>
+        </div>
+        <p class="desc">Standalone GUI wallet. No installation or extra dependencies &mdash; just run the executable.</p>
+        <div class="meta"><span><span class="dot"></span>Windows 7+</span><span><span class="dot"></span>64-bit</span></div>
+        <a href="https://github.com/CivicLight/CivicNet/releases/latest" class="btn btn-primary" target="_blank">Download for Windows</a>
+        <div class="source-note">github.com/CivicLight/CivicNet/releases</div>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-card-top">
+          <div class="os-icon">LNX</div>
+          <div>
+            <h3>Linux</h3>
+            <div class="platform">civicnet-node, civicnet-cli &middot; x86_64</div>
+          </div>
+        </div>
+        <p class="desc">Command-line node and RPC client. Ideal for running a full node or solo mining on a server.</p>
+        <div class="meta"><span><span class="dot"></span>Ubuntu/Debian</span><span><span class="dot"></span>64-bit</span></div>
+        <a href="https://github.com/CivicLight/CivicNet/releases/latest" class="btn btn-primary" target="_blank">Download for Linux</a>
+        <div class="source-note">github.com/CivicLight/CivicNet/releases</div>
+      </div>
+
+    </div>
+
+    <div class="callout" style="margin-top: 16px;">
+      <div class="callout-text">
+        <div class="tag">No download needed</div>
+        <h3>Prefer not to install anything?</h3>
+        <p>The web wallet runs entirely in your browser and works on any device &mdash; generate an address in seconds.</p>
+      </div>
+      <a href="https://webwallet.civiclight.xyz" class="btn btn-outline" target="_blank">Open Web Wallet →</a>
+    </div>
+  </div>
 </section>
 
 <section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>CPU Miner</h2>
+      <p>Mine CIVIC using the civiclight algorithm on ordinary desktop hardware &mdash; no GPU or ASIC required.</p>
+    </div>
+    <div class="dl-grid">
 
-<div class="container">
+      <div class="dl-card">
+        <div class="dl-card-top">
+          <div class="os-icon">WIN</div>
+          <div>
+            <h3>Windows Miner</h3>
+            <div class="platform">cpuminer.exe &middot; x86_64</div>
+          </div>
+        </div>
+        <p class="desc">Prebuilt CPU miner with civiclight algorithm support. Includes required runtime libraries.</p>
+        <div class="meta"><span><span class="dot"></span>Windows 7+</span><span><span class="dot"></span>64-bit</span></div>
+        <a href="https://github.com/CivicLight/civiclight-miner-windows/releases/latest" class="btn btn-primary" target="_blank">Download Miner</a>
+        <div class="source-note">github.com/CivicLight/civiclight-miner-windows</div>
+      </div>
 
-<div class="card">
+      <div class="dl-card">
+        <div class="dl-card-top">
+          <div class="os-icon">SRC</div>
+          <div>
+            <h3>Build from Source</h3>
+            <div class="platform">cpuminer-opt fork &middot; any platform</div>
+          </div>
+        </div>
+        <p class="desc">For Linux, macOS, or custom builds. Full source available &mdash; compile with the civiclight patch applied.</p>
+        <div class="meta"><span><span class="dot"></span>Cross-platform</span></div>
+        <a href="mining.html" class="btn btn-outline">View Build Instructions</a>
+        <div class="source-note">See the Mining page for setup steps</div>
+      </div>
 
-<h2>CivicNet Core</h2>
+    </div>
+  </div>
+</section>
 
-<p>
-Download the latest daemon, wallet and CLI from GitHub Releases.
-</p>
-
-<a class="button" href="https://github.com/CivicLight/releases" target="_blank">
-GitHub Releases
-</a>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h2>CPU Miner</h2>
-
-<p>
-Official CivicLight CPU Miner for Windows and Linux.
-</p>
-
-<a class="button" href="https://github.com/CivicLight/releases" target="_blank">
-Download Miner
-</a>
-
-</div>
-
-<br>
-
-<div class="card">
-
-<h2>Source Code</h2>
-
-<p>
-Everything is open-source.
-Review the code or contribute on GitHub.
-</p>
-
-<a class="button" href="https://github.com/CivicLight" target="_blank">
-View Source
-</a>
-
-</div>
-
-</div>
-
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Verify what you downloaded</h2>
+      <p>Every release is built from this public source tree. You can build it yourself and compare.</p>
+    </div>
+    <div class="specs-panel">
+      <div class="specs-panel-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;&nbsp;build from source</div>
+      <div class="code-block"><span class="comment"># clone the wallet/node source</span><br>
+<span class="cmd">git clone</span> https://github.com/CivicLight/CivicNet.git<br><br>
+<span class="comment"># clone the CPU miner source</span><br>
+<span class="cmd">git clone</span> https://github.com/CivicLight/civiclight-miner-windows.git</div>
+    </div>
+  </div>
 </section>
 
 <footer>
-
-<p>
-© <span id="year"></span> CivicNet
-</p>
-
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
 </footer>
 
 </body>
