@@ -5,223 +5,494 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CivicNet | The Decentralized Community Grid</title>
 <meta name="description" content="CivicNet is a decentralized community-driven cryptocurrency built for everyone and powered by any CPU.">
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b;
+    --bg-deep: #091220;
+    --surface: #16263d;
+    --surface-hi: #1c3050;
+    --line: #2a3f5c;
+    --amber: #e8a33d;
+    --amber-dim: #b57e2b;
+    --teal: #5fbfa3;
+    --text: #f2f0e8;
+    --text-dim: #a9b4c4;
+    --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- grid backdrop ---------- */
+  .grid-field {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 40%, transparent 90%);
+    pointer-events: none;
+  }
+
+  .node-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 12px 2px rgba(232, 163, 61, 0.7);
+    animation: pulse 3.2s ease-in-out infinite;
+  }
+  .node-dot.teal { background: var(--teal); box-shadow: 0 0 12px 2px rgba(95, 191, 163, 0.7); }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.25; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .node-dot { animation: none; opacity: 0.8; }
+  }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(14, 26, 43, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo .mark {
+    width: 10px; height: 10px;
+    background: var(--amber);
+    box-shadow: 0 0 10px 2px rgba(232,163,61,0.6);
+  }
+  nav { display: flex; gap: 32px; }
+  nav a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dim);
+    transition: color 0.15s;
+    position: relative;
+  }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    padding: 96px 0 88px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px; height: 1px;
+    background: var(--amber-dim);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(38px, 5.4vw, 64px);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    max-width: 780px;
+  }
+  .hero h1 .accent { color: var(--amber); }
+  .hero p.lede {
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 540px;
+  }
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14.5px;
+    padding: 13px 24px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: var(--bg-deep);
+  }
+  .btn-primary:hover { background: #f3b656; }
+  .btn-outline {
+    border-color: var(--line);
+    color: var(--text);
+  }
+  .btn-outline:hover { border-color: var(--amber-dim); background: var(--surface); }
+
+  /* ---------- section framing ---------- */
+  section { padding: 76px 0; border-bottom: 1px solid var(--line); position: relative; }
+  section:last-of-type { border-bottom: none; }
+
+  .section-head { margin-bottom: 44px; max-width: 640px; }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .section-head p {
+    margin-top: 12px;
+    color: var(--text-dim);
+    font-size: 15.5px;
+  }
+
+  /* ---------- feature grid ---------- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .feature {
+    background: var(--bg);
+    padding: 28px 26px;
+    transition: background 0.15s;
+  }
+  .feature:hover { background: var(--surface); }
+  .feature .idx {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--amber-dim);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .feature h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .feature p { font-size: 14px; color: var(--text-dim); }
+
+  /* ---------- specs (terminal-style readout) ---------- */
+  .specs-panel {
+    background: var(--bg-deep);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .specs-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .specs-panel-head .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 22px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-row .k { color: var(--text-faint); }
+  .spec-row .v { color: var(--text); font-weight: 500; }
+  .spec-row .v.amber { color: var(--amber); }
+
+  /* ---------- roadmap ---------- */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .rm-card {
+    border: 1px solid var(--line);
+    padding: 18px 16px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rm-card.done { border-color: rgba(95,191,163,0.35); background: rgba(95,191,163,0.06); }
+  .rm-card.done .status { color: var(--teal); }
+  .rm-card.progress { border-color: rgba(232,163,61,0.3); background: rgba(232,163,61,0.05); }
+  .rm-card.progress .status { color: var(--amber); }
+  .status { font-size: 15px; flex-shrink: 0; }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    text-align: center;
+    padding: 90px 0;
+  }
+  .cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .cta p { color: var(--text-dim); font-size: 16px; margin-bottom: 32px; }
+
+  /* ---------- footer ---------- */
+  footer { padding: 56px 0 40px; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 36px;
+  }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
 </head>
 <body>
+
 <header>
-<div class="container">
-<div class="logo">
-<h2>CivicNet</h2>
-</div>
-<nav>
-<a href="index.html">Home</a>
-<a href="downloads.html">Downloads</a>
-<a href="mining.html">Mining</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="faq.html">FAQ</a>
-</nav>
-</div>
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="mining.html">Mining</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
 </header>
 
 <section class="hero">
-<div class="container">
-<h1>The Decentralized Community Grid</h1>
-<p class="subtitle">
-Built for Everyone.<br>
-Powered by Any CPU.
-</p>
-<div class="hero-buttons">
-<a class="btn" href="http://103.180.165.99/wallet/index.html" target="_blank">Web Wallet</a>
-<a class="btn secondary" href="downloads.html">Download Wallet</a>
-<a class="btn secondary" href="http://103.180.165.99" target="_blank">
-Official Pool
-</a>
-</div>
-</div>
+  <div class="grid-field"></div>
+  <div class="node-dot" style="top: 22%; left: 12%;"></div>
+  <div class="node-dot teal" style="top: 38%; left: 78%; animation-delay: 0.6s;"></div>
+  <div class="node-dot" style="top: 68%; left: 24%; animation-delay: 1.2s;"></div>
+  <div class="node-dot teal" style="top: 15%; left: 62%; animation-delay: 1.8s;"></div>
+  <div class="node-dot" style="top: 55%; left: 90%; animation-delay: 2.4s;"></div>
+  <div class="wrap">
+    <div class="eyebrow">civiclight proof-of-work &middot; live mainnet</div>
+    <h1>Grid infrastructure<br>for <span class="accent">every CPU</span>.</h1>
+    <p class="lede">CivicNet is a decentralized network built to run on hardware people already own &mdash; no ASIC farm, no GPU rig. Just a CPU and a connection.</p>
+    <div class="hero-actions">
+      <a href="https://webwallet.civiclight.xyz" class="btn btn-primary" target="_blank">Open Web Wallet</a>
+      <a href="downloads.html" class="btn btn-outline">Download Wallet</a>
+      <a href="https://pool.civiclight.xyz" class="btn btn-outline" target="_blank">Official Pool</a>
+      <a href="https://explorer.civiclight.xyz" class="btn btn-outline" target="_blank">Explorer</a>
+    </div>
+  </div>
 </section>
 
-<section class="about">
-<div class="container">
-<h2>Why CivicNet?</h2>
-<p>
-Most proof-of-work cryptocurrencies have quietly become a race between massive ASIC farms.
-CivicNet follows a different philosophy by making mining accessible to ordinary CPU hardware through the custom <strong>civiclight</strong> algorithm.
-</p>
-<p>
-Current civiclight is CPU-friendly rather than fully ASIC-resistant. A future upgrade toward a memory-hard version is already planned as part of the project's roadmap.
-</p>
-</div>
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Why CivicNet</div>
+      <h2>Mining, returned to ordinary hardware.</h2>
+      <p>Most proof-of-work networks quietly became a race between industrial ASIC farms. CivicNet's civiclight algorithm keeps that race open to anyone with a desktop CPU.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="idx">01</span>
+        <h3>CPU Friendly</h3>
+        <p>Mine with ordinary desktop CPUs &mdash; no specialized hardware required.</p>
+      </div>
+      <div class="feature">
+        <span class="idx">02</span>
+        <h3>1 Minute Blocks</h3>
+        <p>Fast confirmations built for everyday transactions.</p>
+      </div>
+      <div class="feature">
+        <span class="idx">03</span>
+        <h3>Fixed Supply</h3>
+        <p>Capped at approximately 315 million CIVIC.</p>
+      </div>
+      <div class="feature">
+        <span class="idx">04</span>
+        <h3>Open Source</h3>
+        <p>Fully public source code, auditable by anyone.</p>
+      </div>
+      <div class="feature">
+        <span class="idx">05</span>
+        <h3>Bitcoin Core Based</h3>
+        <p>Built on the proven Bitcoin/Litecoin Core 0.21 codebase.</p>
+      </div>
+      <div class="feature">
+        <span class="idx">06</span>
+        <h3>Modern Addresses</h3>
+        <p>Native SegWit and Bech32 address support.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="features">
-<div class="container">
-<h2>Key Features</h2>
-<div class="grid">
-<div class="card">
-<h3>CPU Friendly</h3>
-<p>
-Mine with ordinary desktop CPUs.
-</p>
-</div>
-<div class="card">
-<h3>1 Minute Blocks</h3>
-<p>
-Fast confirmations for everyday use.
-</p>
-</div>
-<div class="card">
-<h3>Fixed Supply</h3>
-<p>
-Approximately 315 Million CIVIC.
-</p>
-</div>
-<div class="card">
-<h3>Open Source</h3>
-<p>
-Fully available on GitHub.
-</p>
-</div>
-<div class="card">
-<h3>Bitcoin Core Based</h3>
-<p>
-Built on Bitcoin/Litecoin Core 0.21.
-</p>
-</div>
-<div class="card">
-<h3>Modern Address Format</h3>
-<p>
-Native SegWit & Bech32 addresses.
-</p>
-</div>
-</div>
-</div>
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Network Parameters</div>
+      <h2>Technical specifications.</h2>
+    </div>
+    <div class="specs-panel">
+      <div class="specs-panel-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;&nbsp;network.conf</div>
+      <div class="spec-row"><span class="k">algorithm</span><span class="v amber">civiclight</span></div>
+      <div class="spec-row"><span class="k">consensus</span><span class="v">proof_of_work</span></div>
+      <div class="spec-row"><span class="k">future_upgrade</span><span class="v">hybrid_pow_pos</span></div>
+      <div class="spec-row"><span class="k">block_time</span><span class="v">60s</span></div>
+      <div class="spec-row"><span class="k">block_reward</span><span class="v">77 CIVIC</span></div>
+      <div class="spec-row"><span class="k">halving_interval</span><span class="v">2,100,000 blocks</span></div>
+      <div class="spec-row"><span class="k">total_supply</span><span class="v">~315,000,000 CIVIC</span></div>
+      <div class="spec-row"><span class="k">coinbase_maturity</span><span class="v">50 confirmations</span></div>
+      <div class="spec-row"><span class="k">p2p_port</span><span class="v">9333</span></div>
+      <div class="spec-row"><span class="k">rpc_port</span><span class="v">9332</span></div>
+    </div>
+  </div>
 </section>
 
-<section class="specs">
-<div class="container">
-<h2>Technical Specifications</h2>
-<table>
-<tr>
-<td>Algorithm</td>
-<td>civiclight</td>
-</tr>
-<tr>
-<td>Consensus</td>
-<td>Proof of Work</td>
-</tr>
-<tr>
-<td>Future Upgrade</td>
-<td>Hybrid PoW + Proof of Stake</td>
-</tr>
-<tr>
-<td>Block Time</td>
-<td>1 Minute</td>
-</tr>
-<tr>
-<td>Block Reward</td>
-<td>77 CIVIC</td>
-</tr>
-<tr>
-<td>Halving</td>
-<td>Every 2,100,000 Blocks</td>
-</tr>
-<tr>
-<td>Total Supply</td>
-<td>~315 Million CIVIC</td>
-</tr>
-<tr>
-<td>Coinbase Maturity</td>
-<td>50 Confirmations</td>
-</tr>
-<tr>
-<td>P2P Port</td>
-<td>9333</td>
-</tr>
-<tr>
-<td>RPC Port</td>
-<td>9332</td>
-</tr>
-</table>
-</div>
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Progress</div>
+      <h2>Development status.</h2>
+    </div>
+    <div class="roadmap-grid">
+      <div class="rm-card done"><span class="status">&#10003;</span>Mainnet</div>
+      <div class="rm-card done"><span class="status">&#10003;</span>Wallet</div>
+      <div class="rm-card done"><span class="status">&#10003;</span>Explorer</div>
+      <div class="rm-card done"><span class="status">&#10003;</span>Mining Pool</div>
+      <div class="rm-card done"><span class="status">&#10003;</span>CPU Miner</div>
+      <div class="rm-card done"><span class="status">&#10003;</span>DNS Seed</div>
+      <div class="rm-card progress"><span class="status">&#9203;</span>ASIC-Resistant v2</div>
+      <div class="rm-card progress"><span class="status">&#9203;</span>Hybrid PoW+PoS</div>
+    </div>
+  </div>
 </section>
 
-<section class="roadmap-preview">
-<div class="container">
-<h2>Development Status</h2>
-<div class="grid">
-<div class="card done">
-✔ Mainnet
-</div>
-<div class="card done">
-✔ Wallet
-</div>
-<div class="card done">
-✔ Explorer
-</div>
-<div class="card done">
-✔ Mining Pool
-</div>
-<div class="card done">
-✔ CPU Miner
-</div>
-<div class="card progress">
-⏳ ASIC Resistant civiclight v2
-</div>
-<div class="card progress">
-⏳ Hybrid PoW + PoS
-</div>
-<div class="card progress">
-⏳ Exchange Listings
-</div>
-</div>
-</div>
-</section>
-
-<section class="cta">
-<div class="container">
-<h2>Start Mining Today</h2>
-<p>
-Download the wallet, get the CPU miner and join the CivicNet network.
-</p>
-<a class="btn" href="downloads.html">
-Get Started
-</a>
-</div>
+<section class="cta" style="border-bottom: none;">
+  <div class="wrap">
+    <h2>Start mining today.</h2>
+    <p>Download the wallet, get the CPU miner, and join the network &mdash; from any machine you already own.</p>
+    <a href="downloads.html" class="btn btn-primary">Get Started</a>
+  </div>
 </section>
 
 <footer>
-<div class="container footer-grid">
-<div>
-<h3>CivicNet</h3>
-<p>
-The Decentralized Community Grid.
-</p>
-</div>
-<div>
-<h3>Resources</h3>
-<ul>
-<li><a href="downloads.html">Downloads</a></li>
-<li><a href="mining.html">Mining</a></li>
-<li><a href="roadmap.html">Roadmap</a></li>
-<li><a href="faq.html">FAQ</a></li>
-</ul>
-</div>
-<div>
-<h3>Links</h3>
-<ul>
-<li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
-<li><a href="http://103.180.165.99/wallet/index.html" target="_blank">Web Wallet</a></li>
-<li><a href="http://103.180.165.99:3001" target="_blank">Explorer</a></li>
-<li><a href="http://103.180.165.99" target="_blank">Official Pool</a></li>
-</ul>
-</div>
-</div>
-<hr>
-<p class="copyright">
-© 2026 CivicNet Project. Open Source.
-</p>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
 </footer>
 
-<script src="script.js"></script>
 </body>
 </html>
