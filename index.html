@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>CivicNet | The Decentralized Community Grid</title>
 <meta name="description" content="CivicNet is a decentralized community-driven cryptocurrency built for everyone and powered by any CPU.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +19,9 @@
     --surface: #16263d;
     --surface-hi: #1c3050;
     --line: #2a3f5c;
-    --amber: #e8a33d;
-    --amber-dim: #b57e2b;
-    --teal: #5fbfa3;
+    --amber: #34d9c9;
+    --amber-dim: #279e92;
+    --teal: #3b9fe0;
     --text: #f2f0e8;
     --text-dim: #a9b4c4;
     --text-faint: #6c7a90;
@@ -98,9 +102,9 @@
     gap: 8px;
   }
   .logo .mark {
-    width: 10px; height: 10px;
-    background: var(--amber);
-    box-shadow: 0 0 10px 2px rgba(232,163,61,0.6);
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    object-fit: cover;
   }
   nav { display: flex; gap: 32px; }
   nav a {
@@ -339,7 +343,7 @@
 
 <header>
   <div class="wrap">
-    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <a href="index.html" class="logo"><img class="mark" src="logo-header.png" alt="">CivicNet</a>
     <nav>
       <a href="index.html" class="active">Home</a>
       <a href="downloads.html">Downloads</a>
