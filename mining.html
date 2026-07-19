@@ -1,312 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mining | CivicNet</title>
+<meta name="description" content="How to mine CivicNet (CIVIC) with a CPU — pool and solo mining instructions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b; --bg-deep: #091220; --surface: #16263d; --surface-hi: #1c3050;
+    --line: #2a3f5c; --amber: #e8a33d; --amber-dim: #b57e2b; --teal: #5fbfa3;
+    --text: #f2f0e8; --text-dim: #a9b4c4; --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; text-decoration: none; }
 
-<title>Mining - CivicNet</title>
+  header { position: sticky; top: 0; z-index: 50; background: rgba(14, 26, 43, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .mark { width: 10px; height: 10px; background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.6); }
+  nav { display: flex; gap: 32px; }
+  nav a { font-size: 14px; font-weight: 500; color: var(--text-dim); transition: color 0.15s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
 
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
+  .page-head { padding: 64px 0 48px; border-bottom: 1px solid var(--line); }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .page-head p { color: var(--text-dim); font-size: 16px; max-width: 600px; }
 
+  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-head { margin-bottom: 32px; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .section-head h2 { font-family: var(--font-display); font-size: 24px; font-weight: 600; }
+  .section-head p { margin-top: 8px; color: var(--text-dim); font-size: 15px; }
+  .badge {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 11px; border-radius: 3px; border: 1px solid;
+  }
+  .badge.recommended { color: var(--amber); border-color: rgba(232,163,61,0.4); background: rgba(232,163,61,0.08); }
+  .badge.advanced { color: var(--text-dim); border-color: var(--line); }
+
+  .specs-panel { background: var(--bg-deep); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .specs-panel-head { display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+  .specs-panel-head .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .code-block { padding: 20px 22px; font-family: var(--font-mono); font-size: 13.5px; color: var(--text-dim); overflow-x: auto; white-space: pre; }
+  .code-block .cmd { color: var(--amber); }
+  .code-block .comment { color: var(--text-faint); }
+  .code-block .val { color: var(--teal); }
+
+  .step-list { counter-reset: step; }
+  .step { display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    counter-increment: step;
+    font-family: var(--font-mono); font-size: 13px; color: var(--amber);
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(232,163,61,0.4);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-num::before { content: counter(step); }
+  .step-body h4 { font-family: var(--font-display); font-size: 15.5px; margin-bottom: 6px; }
+  .step-body p { font-size: 14px; color: var(--text-dim); }
+  .step-body code {
+    font-family: var(--font-mono); font-size: 13px; background: var(--bg-deep);
+    padding: 2px 7px; border-radius: 3px; border: 1px solid var(--line); color: var(--amber);
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  .btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    padding: 12px 22px; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.15s; border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--amber); color: var(--bg-deep); }
+  .btn-primary:hover { background: #f3b656; }
+  .btn-outline { border-color: var(--line); color: var(--text); }
+  .btn-outline:hover { border-color: var(--amber-dim); background: var(--surface); }
+
+  .param-table { width: 100%; border-collapse: collapse; }
+  .param-table tr { border-bottom: 1px solid var(--line); }
+  .param-table tr:last-child { border-bottom: none; }
+  .param-table td { padding: 12px 4px; font-size: 14px; }
+  .param-table td:first-child { color: var(--text-faint); font-family: var(--font-mono); font-size: 12.5px; width: 40%; }
+  .param-table td:last-child { font-family: var(--font-mono); color: var(--text); }
+
+  .note {
+    display: flex; gap: 12px; padding: 16px 18px; border-radius: 4px;
+    background: rgba(232,163,61,0.06); border: 1px solid rgba(232,163,61,0.25);
+    font-size: 13.5px; color: var(--text-dim); margin-top: 20px;
+  }
+  .note .icon { color: var(--amber); flex-shrink: 0; }
+
+  footer { padding: 56px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .two-col { grid-template-columns: 1fr; gap: 24px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
 </head>
-
 <body>
 
 <header>
-
-<div class="container">
-
-<div class="logo">
-<h2>CivicNet</h2>
-</div>
-
-<nav>
-
-<a href="index.html">Home</a>
-<a href="downloads.html">Downloads</a>
-<a href="mining.html">Mining</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="faq.html">FAQ</a>
-
-</nav>
-
-</div>
-
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="mark"></span>CivicNet</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="mining.html" class="active">Mining</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
 </header>
 
-
-<section class="hero">
-
-<div class="container">
-
-<h1>Mine CivicNet</h1>
-
-<p class="subtitle">
-Start mining CIVIC using any modern CPU.
-Choose between pool mining or solo mining.
-</p>
-
+<div class="page-head">
+  <div class="wrap">
+    <div class="section-eyebrow">Get Mining</div>
+    <h1>Mine CIVIC with any CPU.</h1>
+    <p>civiclight is designed to run on ordinary desktop hardware. Two ways to mine: join the official pool for steady rewards, or mine solo against your own node.</p>
+  </div>
 </div>
-
-</section>
-
-
 
 <section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Pool Mining</h2>
+        <p>Combine hashrate with other miners and get paid proportionally as blocks are found.</p>
+      </div>
+      <span class="badge recommended">Recommended</span>
+    </div>
 
-<div class="container">
+    <div class="specs-panel">
+      <div class="specs-panel-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;&nbsp;terminal</div>
+      <div class="code-block"><span class="comment"># download and run the miner (see Downloads page)</span>
+<span class="cmd">cpuminer.exe</span> -a civiclight -o stratum+tcp://<span class="val">pool.civiclight.xyz:3032</span> -u <span class="val">YOUR_WALLET_ADDRESS</span> -p x -t 4</div>
+    </div>
 
-<h2>Why CPU Mining?</h2>
+    <div class="two-col">
+      <div>
+        <table class="param-table">
+          <tr><td>Pool address</td><td>pool.civiclight.xyz</td></tr>
+          <tr><td>Stratum port</td><td>3032</td></tr>
+        </table>
+      </div>
+      <div>
+        <table class="param-table">
+          <tr><td>Password</td><td>x (any value works)</td></tr>
+          <tr><td>Threads (-t)</td><td>match your CPU core count</td></tr>
+        </table>
+      </div>
+    </div>
 
-<p style="text-align:center;max-width:900px;margin:auto;color:#cbd5e1;">
-
-CivicNet uses the custom <b>civiclight</b> Proof-of-Work algorithm,
-designed to keep mining simple and accessible for ordinary CPUs.
-
-Today, anyone can participate without purchasing expensive ASIC hardware.
-
-</p>
-
-</div>
-
+    <div class="note">
+      <span class="icon">&#9432;</span>
+      <span>Don't have a wallet address yet? Generate one instantly with the <a href="https://webwallet.civiclight.xyz" target="_blank" style="color: var(--amber); text-decoration: underline;">web wallet</a> — no download required.</span>
+    </div>
+  </div>
 </section>
-
-
 
 <section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Solo Mining</h2>
+        <p>Mine directly against your own full node. Keep 100% of every block reward, at higher variance.</p>
+      </div>
+      <span class="badge advanced">Advanced</span>
+    </div>
 
-<div class="container">
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <h4>Run a full node</h4>
+          <p>Download <code>civicnet-node</code> from the Downloads page and start it. It will sync automatically using the built-in DNS seed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <p>Get a wallet address with <code>civicnet-cli getnewaddress</code>, or use one from the web wallet.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <p>Point the miner at your node's RPC:</p>
+        </div>
+      </div>
+    </div>
 
-<h2>Official Pool</h2>
+    <div class="specs-panel" style="margin-top: 20px;">
+      <div class="specs-panel-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;&nbsp;terminal</div>
+      <div class="code-block"><span class="cmd">cpuminer.exe</span> -a civiclight -o http://<span class="val">YOUR_NODE_IP:9332</span> -u <span class="val">RPC_USER</span> -p <span class="val">RPC_PASSWORD</span> --coinbase-addr=<span class="val">YOUR_WALLET_ADDRESS</span> -t 4</div>
+    </div>
 
-<div class="card">
-
-<h3>Pool Address</h3>
-
-<p>
-
-<strong>URL</strong><br>
-
-stratum+tcp://103.180.165.99:3032
-
-</p>
-
-<br>
-
-<p>
-
-<strong>Username</strong><br>
-
-Your CIVIC wallet address
-
-</p>
-
-<br>
-
-<p>
-
-<strong>Password</strong><br>
-
-x
-
-</p>
-
-</div>
-
-</div>
-
+    <table class="param-table" style="margin-top: 20px;">
+      <tr><td>P2P port</td><td>9333</td></tr>
+      <tr><td>RPC port</td><td>9332</td></tr>
+      <tr><td>DNS seed</td><td>dnsseed.civiclight.xyz</td></tr>
+    </table>
+  </div>
 </section>
 
-
-
-<section>
-
-<div class="container">
-
-<h2>Windows Miner</h2>
-
-<div class="card">
-
-<pre>
-
-cpuminer.exe ^
--a civiclight ^
--o stratum+tcp://103.180.165.99:3032 ^
--u civc1qYOURADDRESS ^
--p x
-
-</pre>
-
-</div>
-
-</div>
-
+<section style="border-bottom: none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Building from source</h2>
+        <p>For Linux, macOS, or platforms without a prebuilt binary.</p>
+      </div>
+    </div>
+    <div class="specs-panel">
+      <div class="specs-panel-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp;&nbsp;terminal</div>
+      <div class="code-block"><span class="comment"># clone the CPU miner source</span>
+<span class="cmd">git clone</span> https://github.com/CivicLight/civiclight-miner-windows.git
+<span class="cmd">cd</span> civiclight-miner-windows
+<span class="comment"># see the repo README for build steps per platform</span></div>
+    </div>
+    <div style="margin-top: 24px; display: flex; gap: 14px;">
+      <a href="downloads.html" class="btn btn-primary">Go to Downloads</a>
+      <a href="https://github.com/CivicLight" class="btn btn-outline" target="_blank">View GitHub</a>
+    </div>
+  </div>
 </section>
-
-
-
-<section>
-
-<div class="container">
-
-<h2>Linux Miner</h2>
-
-<div class="card">
-
-<pre>
-
-./cpuminer \
--a civiclight \
--o stratum+tcp://103.180.165.99:3032 \
--u civc1qYOURADDRESS \
--p x
-
-</pre>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section>
-
-<div class="container">
-
-<h2>Solo Mining</h2>
-
-<div class="card">
-
-<pre>
-
-cpuminer.exe ^
--a civiclight ^
--o http://YOUR_NODE_IP:9332 ^
--u RPC_USERNAME ^
--p RPC_PASSWORD ^
---coinbase-addr=civc1qYOURADDRESS
-
-</pre>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section>
-
-<div class="container">
-
-<h2>Mining Information</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>Algorithm</h3>
-
-<p>civiclight</p>
-
-</div>
-
-<div class="card">
-
-<h3>Block Time</h3>
-
-<p>1 Minute</p>
-
-</div>
-
-<div class="card">
-
-<h3>Reward</h3>
-
-<p>77 CIVIC</p>
-
-</div>
-
-<div class="card">
-
-<h3>Halving</h3>
-
-<p>Every 2,100,000 blocks</p>
-
-</div>
-
-<div class="card">
-
-<h3>Maturity</h3>
-
-<p>50 Confirmations</p>
-
-</div>
-
-<div class="card">
-
-<h3>Pool Fee</h3>
-
-<p>1%</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="cta">
-
-<div class="container">
-
-<h2>Ready to Start?</h2>
-
-<p>
-
-Download the official wallet and miner,
-connect to the CivicNet pool,
-and start earning CIVIC today.
-
-</p>
-
-<a class="btn" href="downloads.html">
-
-Download Now
-
-</a>
-
-</div>
-
-</section>
-
-
 
 <footer>
-
-<div class="container">
-
-<hr>
-
-<p class="copyright">
-
-© <span id="year"></span> CivicNet Project
-
-</p>
-
-</div>
-
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
 </footer>
 
 </body>
-
 </html>
