@@ -41,7 +41,7 @@
 
   .progress-strip { padding: 32px 0; border-bottom: 1px solid var(--line); }
   .progress-track { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--amber)); width: 68%; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--amber)); width: 78%; }
   .progress-label { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
   .progress-label .amber { color: var(--amber); }
 
@@ -187,6 +187,13 @@
         </div>
         <span class="rm-status done">Live</span>
       </div>
+      <div class="rm-item done">
+        <div class="rm-item-left">
+          <span class="rm-check done">&#10003;</span>
+          <div><h4>civiclight v2 &mdash; ASIC Resistance</h4><p>Memory-hard upgrade to the hash pipeline, closing the gap that let specialized hardware compete. Activated July 23, 2026, 09:00 UTC via hard fork.</p></div>
+        </div>
+        <span class="rm-status done">Live</span>
+      </div>
     </div>
   </div>
 </section>
@@ -201,22 +208,10 @@
       <div class="rm-item active">
         <div class="rm-item-left">
           <span class="rm-check active">&#9203;</span>
-          <div><h4>civiclight v2 &mdash; ASIC Resistance</h4><p>Moving from the current hash pipeline to a memory-hard construction, closing the gap that lets specialized hardware compete.</p></div>
-        </div>
-        <span class="rm-status active">Research</span>
-      </div>
-      <div class="rm-item active">
-        <div class="rm-item-left">
-          <span class="rm-check active">&#9203;</span>
           <div><h4>Hybrid PoW + PoS</h4><p>Layering proof-of-stake on top of mining, for long-term network security beyond hashrate alone.</p></div>
         </div>
         <span class="rm-status active">Design</span>
       </div>
-    </div>
-
-    <div class="fork-note">
-      <span class="icon">&#9432;</span>
-      <span><strong>Note on civiclight v2:</strong> this requires a hard fork. It won't ship until it's tested thoroughly on a public testnet, with the network given plenty of advance notice before any fork height is set.</span>
     </div>
   </div>
 </section>
