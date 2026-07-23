@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Whitepaper | CivicNet</title>
+<meta name="description" content="CivicNet (CIVIC) whitepaper — architecture, tokenomics, and the Hybrid PoW+PoS roadmap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1a2b; --bg-deep: #091220; --surface: #16263d; --surface-hi: #1c3050;
+    --line: #2a3f5c; --amber: #34d9c9; --amber-dim: #279e92; --teal: #3b9fe0;
+    --text: #f2f0e8; --text-dim: #a9b4c4; --text-faint: #6c7a90;
+    --font-display: 'Space Grotesk', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; text-decoration: none; }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(14, 26, 43, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header .wrap { max-width: 1120px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .logo .mark { width: 10px; height: 10px; background: var(--amber); box-shadow: 0 0 10px 2px rgba(232,163,61,0.6); }
+  nav { display: flex; gap: 32px; }
+  nav a { font-size: 14px; font-weight: 500; color: var(--text-dim); transition: color 0.15s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--amber); }
+
+  .page-head { padding: 64px 0 48px; border-bottom: 1px solid var(--line); }
+  .page-head .wrap { max-width: 1120px; }
+  .section-eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .page-head p { color: var(--text-dim); font-size: 16px; max-width: 600px; }
+
+  .wp-body { padding: 56px 0 80px; }
+
+  .download-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 24px 28px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--bg-deep); margin-bottom: 48px; flex-wrap: wrap;
+  }
+  .download-card .info h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .download-card .info p { font-size: 13.5px; color: var(--text-faint); }
+  .btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 14.5px;
+    padding: 13px 24px; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.15s; border: 1px solid transparent; white-space: nowrap;
+  }
+  .btn-primary { background: var(--amber); color: var(--bg-deep); }
+  .btn-primary:hover { background: #f3b656; }
+
+  .wp-section { margin-bottom: 40px; }
+  .wp-section h2 { font-family: var(--font-display); font-size: 20px; font-weight: 600; margin-bottom: 14px; }
+  .wp-section p { color: var(--text-dim); font-size: 15px; margin-bottom: 12px; }
+  .wp-section ul { color: var(--text-dim); font-size: 15px; padding-left: 20px; margin-bottom: 12px; }
+  .wp-section li { margin-bottom: 6px; }
+
+  .toc {
+    border: 1px solid var(--line); border-radius: 6px; padding: 20px 24px;
+    margin-bottom: 48px; background: var(--bg-deep);
+  }
+  .toc h3 { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+  .toc ol { list-style: none; counter-reset: toc; }
+  .toc li { counter-increment: toc; font-size: 14px; color: var(--text-dim); padding: 6px 0; }
+  .toc li::before { content: counter(toc) ". "; color: var(--amber-dim); font-family: var(--font-mono); margin-right: 4px; }
+
+  footer { padding: 56px 0 40px; }
+  footer .wrap { max-width: 1120px; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; padding-bottom: 36px; }
+  .footer-grid h3 { font-family: var(--font-display); font-size: 15px; margin-bottom: 14px; }
+  .footer-grid p { color: var(--text-faint); font-size: 13.5px; }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 9px; }
+  .footer-grid a { color: var(--text-dim); font-size: 13.5px; transition: color 0.15s; }
+  .footer-grid a:hover { color: var(--amber); }
+  .footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .download-card { flex-direction: column; align-items: flex-start; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo"><img class="mark" src="logo-header.png" alt="">CivicNet</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="mining.html">Mining</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="faq.html">FAQ</a>
+      <a href="whitepaper.html" class="active">Whitepaper</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="section-eyebrow">Documentation</div>
+    <h1>Whitepaper.</h1>
+    <p>CivicNet's architecture, tokenomics, and the Hybrid PoW+PoS roadmap — in full technical detail.</p>
+  </div>
+</div>
+
+<div class="wp-body">
+  <div class="wrap">
+
+    <div class="download-card">
+      <div class="info">
+        <h3>CivicNet Whitepaper — v1.0</h3>
+        <p>PDF, July 2026</p>
+      </div>
+      <a href="whitepaper.pdf" class="btn btn-primary" target="_blank">
+	  Download PDF
+	  </a>
+    </div>
+
+    <div class="toc">
+      <h3>Contents</h3>
+      <ol>
+        <li>Introduction</li>
+        <li>Network parameters</li>
+        <li>Mining algorithm: civiclight</li>
+        <li>Tokenomics</li>
+        <li>Network infrastructure</li>
+        <li>Roadmap: Hybrid Proof-of-Work + Proof-of-Stake</li>
+        <li>Security considerations</li>
+        <li>Conclusion</li>
+      </ol>
+    </div>
+
+    <div class="wp-section">
+      <h2>Overview</h2>
+      <p>CivicNet is an open-source, CPU-mineable Proof-of-Work cryptocurrency, built for accessibility over exclusivity. The full whitepaper covers the project's current implementation &mdash; the civiclight v2 ASIC-resistant algorithm, tokenomics, and live infrastructure &mdash; alongside the finalized design for CivicNet's next major upgrade: Hybrid Proof-of-Work + Proof-of-Stake.</p>
+    </div>
+
+    <div class="wp-section">
+      <h2>What's inside</h2>
+      <ul>
+        <li>How civiclight v2 achieves real ASIC resistance, and how the time-based hard fork activation works</li>
+        <li>Full tokenomics: supply, halving schedule, and the transparent 1% developer allocation</li>
+        <li>The technical design of Hybrid PoW+PoS &mdash; a Blackcoin-inspired staking model with no minimum balance and whale-resistant, non-linear staking odds</li>
+        <li>Consensus-level specification: kernel hash, stake modifier, coinstake transaction structure</li>
+      </ul>
+    </div>
+
+    <div class="wp-section">
+      <h2>Status</h2>
+      <p>Sections on the live network (algorithm, tokenomics, infrastructure) describe CivicNet as it currently runs. The Hybrid PoW+PoS section describes a finalized design direction &mdash; not yet implemented in code. Any consensus change of this scope will be extensively tested on a public testnet before mainnet activation.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>CivicNet</h3>
+        <p>The Decentralized Community Grid. Built for everyone, powered by any CPU.</p>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="downloads.html">Downloads</a></li>
+          <li><a href="mining.html">Mining</a></li>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="whitepaper.html">Whitepaper</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Network</h3>
+        <ul>
+          <li><a href="https://github.com/CivicLight" target="_blank">GitHub</a></li>
+          <li><a href="https://webwallet.civiclight.xyz" target="_blank">Web Wallet</a></li>
+          <li><a href="https://explorer.civiclight.xyz" target="_blank">Explorer</a></li>
+          <li><a href="https://pool.civiclight.xyz" target="_blank">Official Pool</a></li>
+          <li><a href="https://x.com/civiclight_" target="_blank">Twitter / X</a></li>
+          <li><a href="https://t.me/civiclight" target="_blank">Telegram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 CivicNet Project</span>
+      <span>Open Source &middot; MIT License</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
